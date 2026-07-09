@@ -44,6 +44,11 @@ if (file_exists('api/conexion.php')) {
     exit;
 }
 
+
+
+// este es un comentario de prueba
+
+
 if (!isset($conn) || $conn === false) {
     echo json_encode([
         "success" => false,
