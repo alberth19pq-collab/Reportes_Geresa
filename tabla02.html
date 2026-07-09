@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GERESA CUSCO · Plantilla Excel</title>
+  
+  <!-- CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tabla02.css">
+
+  <!-- ✅ XLSX - Para leer y manipular datos -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  
+  <!-- ✅ ExcelJS - Para exportar con estilos -->
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+  
+  <!-- ✅ FileSaver - Para descargar archivos -->
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- SIDEBAR BACKDROP                             -->
+<!-- ============================================ -->
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
+<!-- ============================================ -->
+<!-- MOBILE TOPBAR                                -->
+<!-- ============================================ -->
+<div class="mobile-topbar">
+  <button class="btn-menu" onclick="openSidebar()" aria-label="Abrir menú">
+    <i class="bi bi-list"></i>
+  </button>
+  <div class="mobile-logo-area" id="mobileLogoBtn">
+    <img src="img/logo.jpg" alt="Logo GERESA" class="mobile-logo-img">
+    <span>Plantilla GERESA</span>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- LAYOUT PRINCIPAL                             -->
+<!-- ============================================ -->
+<div class="layout">
+  
+  <!-- ========================================== -->
+  <!-- SIDEBAR - VERSIÓN AURORA                  -->
+  <!-- ========================================== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-brand" id="logoCollapseBtn">
+        <div class="logo-icon">
+          <img src="img/logo.jpg" alt="Logo GERESA" class="logo-img">
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">GERESA</div>
+          <div class="brand-sub">
+            <span>Radar Regional de Salud</span>
+            <!-- ✅ NUEVO: Fecha de actualización -->
+            <span id="fechaActualizacionSidebar" class="fecha-actualizacion">
+              <i class="bi bi-clock-history"></i>
+              Última act: Cargando...
+            </span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-close-sidebar" onclick="closeSidebar()" aria-label="Cerrar menú">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="sidebar-section">
+      <!-- Período -->
+      <div class="section-title">
+        <span class="title-icon"><i class="bi bi-calendar3"></i></span>
+        Período
+      </div>
+      <div class="row g-2">
+        <div class="col-12">
+          <div class="filter-group">
+            <label class="filter-label">Año</label>
+            <select id="periodo" class="form-select"></select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="filter-group">
+            <label class="filter-label">Mes Desde</label>
+            <select id="mesdesde" class="form-select"></select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="filter-group">
+            <label class="filter-label">Mes Hasta</label>
+            <select id="meshasta" class="form-select"></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ubicación Geográfica -->
+      <div class="section-title mt-3">
+        <span class="title-icon"><i class="bi bi-geo-alt"></i></span>
+        Ubicación Geográfica
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Provincia</label>
+        <select id="provincia" class="form-select" onchange="onProvinciaChange()"></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Distrito</label>
+        <select id="distrito" class="form-select" onchange="onDistritoChange()"></select>
+      </div>
+
+      <!-- Establecimiento -->
+      <div class="section-title mt-3">
+        <span class="title-icon"><i class="bi bi-building"></i></span>
+        Establecimiento
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">UE</label>
+        <select id="ue" class="form-select" onchange="onUEChange()"></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Red</label>
+        <select id="red" class="form-select" onchange="onRedChange()" disabled></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Microred</label>
+        <select id="microred" class="form-select" onchange="onMicroredChange()" disabled></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">EESS</label>
+        <select id="eess" class="form-select" disabled></select>
+      </div>
+
+      <!-- Estrategias -->
+      <div class="section-title mt-3">
+        <span class="title-icon"><i class="bi bi-bullseye"></i></span>
+        Estrategias
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Estrategia</label>
+        <div class="estrategia-select-wrap">
+          <select id="estrategia" class="form-select" onchange="onEstrategiaChange()">
+            <option value="">Seleccione estrategia</option>
+            <optgroup label="── Estrategias ──">
+              <option value="BUCAL">🦷 Salud Bucal</option>
+              <option value="OCULAR">👁️ Salud Ocular</option>
+              <option value="METALES">⚗️ Metales Pesados</option>
+              <option value="NO_TRANS">❤️ No Transmisibles</option>
+            </optgroup>
+            <optgroup label="── En desarrollo ──">
+              <option value="MENTAL">🧠 Salud Mental</option>
+            </optgroup>
+          </select>
+          <span class="estrategia-dot" id="estrategiaDot"></span>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- BOTÓN CARGAR DATOS                         -->
+      <!-- ========================================== -->
+      <button class="btn-cargar-datos-sidebar" id="btnCargarDatos" onclick="cargarDatos()">
+        <i class="bi bi-cloud-upload"></i>
+        <span>Cargar Datos</span>
+      </button>
+
+    </div>
+
+    <div class="app-footer">
+      <span class="footer-version">© 2026 GERESA CUSCO — ESTADÍSTICA</span>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- CONTENIDO PRINCIPAL                       -->
+  <!-- ========================================== -->
+  <main class="content">
+    
+    <!-- ======================================== -->
+    <!-- TOPBAR FIJA - SIEMPRE VISIBLE           -->
+    <!-- ======================================== -->
+    <div class="topbar-fixed">
+      <div class="topbar professional-topbar">
+        <div class="topbar-container">
+          
+          <!-- Barra de herramientas -->
+          <div class="toolbar-wrapper">
+            
+            <!-- Grupo izquierdo -->
+            <div class="toolbar-left">
+              <button class="toolbar-btn btn-filter" id="toggleSidebarBtn" type="button">
+                <i class="bi bi-sliders2"></i>
+                <span class="btn-text">Filtros</span>
+                <span class="badge-dot"></span>
+              </button>
+              
+              <div class="toolbar-divider"></div>
+              
+              <!-- Grupo de exportación -->
+              <div class="export-group">
+                <button class="toolbar-btn btn-export btn-pdf" id="btnExportarPDF" onclick="descargarPDF()" disabled>
+                  <i class="bi bi-file-pdf"></i>
+                  <span>PDF</span>
+                  <span class="shortcut">Ctrl+P</span>
+                </button>
+              </div>
+              
+              <div class="toolbar-divider"></div>
+              
+              <button class="toolbar-btn btn-reports" id="toggleReportesBtn" type="button">
+                <i class="bi bi-grid-3x3-gap"></i>
+                <span class="btn-text">Reportes</span>
+                <span class="badge-count" id="reportesBadge">0</span>
+              </button>
+            </div>
+            
+            <!-- Grupo derecho: Usuario y Salir -->
+            <div class="toolbar-right">
+              <!-- ✅ NUEVO: Fecha en el topbar (opcional) -->
+              <span id="fechaActualizacionTopbar" style="font-size:0.6rem;color:rgba(0,0,0,0.2);display:none;"></span>
+              
+              <div class="user-profile">
+                <div class="user-avatar-sm">
+                  <i class="bi bi-person"></i>
+                  <span class="status-dot"></span>
+                </div>
+                <div class="user-info">
+                  <span class="user-role" id="cargoUsuarioDisplay">Cargando...</span>
+                  <span class="user-name" id="nombreUsuarioDisplay">Cargando...</span>
+                </div>
+              </div>
+              
+              <button class="toolbar-btn btn-logout" onclick="cerrarSesion()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span class="btn-text">Salir</span>
+              </button>
+            </div>
+            
+          </div>
+          
+          <!-- Panel de Reportes (colapsable) -->
+          <div class="reportes-container" id="reportesContainer">
+            <div class="report-panel professional-panel">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <i class="bi bi-journal-bookmark-fill"></i>
+                  <span>Reportes disponibles</span>
+                  <span class="count-badge" id="reportCount">(0)</span>
+                </div>
+              </div>
+              <div id="listaTablas" class="report-list professional-list"></div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- CUERPO PRINCIPAL (con scroll)           -->
+    <!-- ======================================== -->
+    <div class="body-scrollable">
+      
+      <!-- FILTROS APLICADOS (encima de la plantilla) -->
+      <div id="filtrosAplicados" class="filtros-aplicados" style="display:none;">
+        <div class="filtros-header">
+          <i class="bi bi-funnel"></i>
+          <span>Filtros aplicados:</span>
+        </div>
+        <div id="filtrosLista" class="filtros-lista"></div>
+      </div>
+
+      <!-- ÁREA DE RESULTADOS (con scroll) -->
+      <div id="resultado">
+        <div class="empty-state">
+          <div class="empty-icon"><i class="bi bi-file-excel"></i></div>
+          <p>Selecciona una estrategia, elige los reportes y pulsa <strong>Cargar Datos</strong></p>
+          <small style="color:rgba(0,0,0,0.3);">Los datos se cargarán en la plantilla Excel</small>
+        </div>
+      </div>
+      
+    </div>
+    
+  </main>
+</div>
+
+<!-- ============================================ -->
+<!-- LOADING OVERLAY                              -->
+<!-- ============================================ -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-content">
+    <div class="loader-spinner"></div>
+    <h4>Cargando datos y actualizando plantilla...</h4>
+    <p>Por favor espere</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCRIPTS                                      -->
+<!-- ============================================ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- MAPEOS -->
+<script src="js/mapeos/mapeo_bucal.js"></script>
+<script src="js/mapeos/mapeo_ocular.js"></script>
+<script src="js/mapeos/mapeo_no_trans.js"></script>   
+
+<!-- MAPEO GLOBAL (debe ir DESPUÉS de los mapeos específicos) -->
+<script src="js/mapeos/mapeo_global.js"></script>
+
+<!-- LÓGICA PRINCIPAL -->
+<script src="js/tabla02.js"></script>
+
+</body>
+</html>
