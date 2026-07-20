@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador · GERESA Cusco</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .card {
+            max-width: 420px;
+            width: 100%;
+            background: var(--surface);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .band {
+            background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 50%, #1a2338 100%);
+            color: #fff;
+            padding: 32px 32px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .band::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.06);
+            pointer-events: none;
+        }
+
+        .band::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--danger) 0 14px, transparent 14px 28px);
+        }
+
+        .band-decoration {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .band-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .band-dot:nth-child(1) { background: var(--danger); }
+        .band-dot:nth-child(2) { background: #f59e0b; }
+        .band-dot:nth-child(3) { background: var(--success); }
+
+        .band small {
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #93c5fd;
+            font-weight: 600;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .band small i { font-size: 12px; }
+
+        .band h4 {
+            font-weight: 800;
+            font-size: 1.6rem;
+            margin: 6px 0 4px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 60%, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .band-sub {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin: 0;
+            font-weight: 400;
+            -webkit-text-fill-color: rgba(255,255,255,0.6);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .body {
+            padding: 28px 32px 32px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field:last-of-type {
+            margin-bottom: 22px;
+        }
+
+        .field label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 10.5px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .field label i {
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .field input {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 12px 16px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            transition: 0.25s;
+        }
+
+        .field input:focus {
+            border-color: var(--primary);
+            background: var(--surface);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08);
+        }
+
+        .field input.is-invalid {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.08) !important;
+        }
+
+        .btn-main {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: 0.18s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-main:hover { background: var(--primary-dark); }
+        .btn-main:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-bottom: 16px;
+            display: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .alert.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .alert.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert i { margin-right: 6px; }
+
+        .step-2 {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .step-1.active { display: block; }
+        .step-2.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-input {
+            letter-spacing: 8px;
+            font-size: 24px !important;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .code-input::placeholder {
+            letter-spacing: 2px;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .resend-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .resend-btn:disabled {
+            color: var(--text-light);
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        .timer {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 3px;
+            width: fit-content;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+            margin-top: 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-link:hover { 
+            color: var(--primary); 
+            border-color: var(--primary); 
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 9px;
+            letter-spacing: 0.03em;
+            color: var(--text-light);
+            font-weight: 500;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .footer-note i { color: var(--danger); margin: 0 4px; }
+
+        .icon-big {
+            font-size: 48px;
+            color: var(--primary);
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Spinner de carga */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.6s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .band { padding: 24px 20px 22px; }
+            .band h4 { font-size: 1.3rem; }
+            .body { padding: 20px; }
+            .field input { padding: 10px 14px; font-size: 13px; }
+            .btn-main { height: 40px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="band">
+            <div class="band-decoration">
+                <span class="band-dot"></span>
+                <span class="band-dot"></span>
+                <span class="band-dot"></span>
+            </div>
+            <small><i class="bi bi-shield-lock"></i> Acceso restringido</small>
+            <h4>Administrador</h4>
+            <p class="band-sub" id="stepTitle">Ingrese su usuario (sin contraseña)</p>
+        </div>
+
+        <div class="body">
+            <!-- Alerta de mensajes -->
+            <div class="alert" id="alertMessage"></div>
+
+            <!-- ===== PASO 1: SOLO USUARIO ===== -->
+            <div class="step-1 active" id="step1">
+                <i class="bi bi-person-circle icon-big"></i>
+                <div class="field">
+                    <label><i class="bi bi-person-badge"></i> Usuario</label>
+                    <input type="text" id="adminUser" placeholder="Ingrese su usuario" autofocus>
+                    <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:11px;">
+                        <i class="bi bi-info-circle"></i> Recibirá un código de 6 dígitos en su correo
+                    </small>
+                </div>
+
+                <button class="btn-main" id="btnSendCode" onclick="requestCode()">
+                    <i class="bi bi-envelope-paper"></i> Enviar código al correo
+                </button>
+            </div>
+
+            <!-- ===== PASO 2: CÓDIGO DE VERIFICACIÓN ===== -->
+            <div class="step-2" id="step2">
+                <i class="bi bi-shield-check icon-big" style="color: var(--success);"></i>
+                <div class="field">
+                    <label><i class="bi bi-shield-check"></i> Código de 6 dígitos</label>
+                    <input type="text" id="verificationCode" class="code-input" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="off">
+                    <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:11px;">
+                        <i class="bi bi-envelope"></i> Revise su correo (incluso spam)
+                    </small>
+                </div>
+
+                <button class="btn-main" id="btnVerifyCode" onclick="verifyCode()">
+                    <i class="bi bi-check-circle"></i> Verificar código
+                </button>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+                    <button class="resend-btn" onclick="requestCode()" id="resendBtn" disabled>
+                        <i class="bi bi-arrow-counterclockwise"></i> Reenviar código
+                    </button>
+                    <span class="timer" id="timerDisplay">60s</span>
+                </div>
+
+                <button class="back-link" onclick="goBackToStep1()">
+                    <i class="bi bi-arrow-left"></i> Volver al inicio
+                </button>
+            </div>
+
+            <div class="footer-note">
+                <i class="bi bi-dot"></i> GERESA Cusco — Oficina de Estadística <i class="bi bi-dot"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  VARIABLES GLOBALES
+        // ============================================================
+        let currentUser = '';
+        let timerInterval = null;
+        let timeLeft = 60;
+        let isSending = false;
+
+        // ============================================================
+        //  MOSTRAR ALERTA
+        // ============================================================
+        function showAlert(message, type) {
+            const alertEl = document.getElementById('alertMessage');
+            alertEl.className = 'alert ' + type;
+            alertEl.style.display = 'block';
+            alertEl.innerHTML = '<i class="bi bi-' + (type === 'error' ? 'x-circle' : 'check-circle') + '"></i> ' + message;
+            
+            // Auto-ocultar después de 5 segundos (solo para éxito)
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertEl.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // ============================================================
+        //  OCULTAR ALERTA
+        // ============================================================
+        function hideAlert() {
+            const alertEl = document.getElementById('alertMessage');
+            alertEl.className = 'alert';
+            alertEl.style.display = 'none';
+        }
+
+        // ============================================================
+        //  PASO 1: SOLICITAR CÓDIGO
+        // ============================================================
+        async function requestCode() {
+            const user = document.getElementById('adminUser').value.trim();
+            const btn = document.getElementById('btnSendCode');
+
+            hideAlert();
+
+            if (!user) {
+                showAlert('Ingrese el usuario', 'error');
+                document.getElementById('adminUser').focus();
+                return;
+            }
+
+            // Deshabilitar botón mientras se procesa
+            isSending = true;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+            try {
+                const formData = new FormData();
+                formData.append('user', user);
+
+                const response = await fetch('api/send_code_debug.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentUser = user;
+                    
+                    // Cambiar al paso 2
+                    document.getElementById('step1').classList.remove('active');
+                    document.getElementById('step2').classList.add('active');
+                    document.getElementById('stepTitle').textContent = 'Verifique su correo';
+                    
+                    showAlert('✅ Código enviado a ' + data.email, 'success');
+                    
+                    // Iniciar temporizador
+                    startTimer(60);
+                    
+                    // Enfocar input del código
+                    setTimeout(() => {
+                        document.getElementById('verificationCode').focus();
+                    }, 300);
+                } else {
+                    showAlert('❌ ' + data.message, 'error');
+                    document.getElementById('adminUser').value = '';
+                    document.getElementById('adminUser').focus();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error de conexión con el servidor', 'error');
+            } finally {
+                // Restaurar botón
+                isSending = false;
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-envelope-paper"></i> Enviar código al correo';
+            }
+        }
+
+        // ============================================================
+        //  PASO 2: VERIFICAR CÓDIGO
+        // ============================================================
+        async function verifyCode() {
+            const code = document.getElementById('verificationCode').value.trim();
+            const btn = document.getElementById('btnVerifyCode');
+
+            hideAlert();
+
+            if (!code || code.length !== 6) {
+                showAlert('Ingrese el código de 6 dígitos', 'error');
+                document.getElementById('verificationCode').focus();
+                return;
+            }
+
+            // Deshabilitar botón mientras se procesa
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Verificando...';
+
+            try {
+                const formData = new FormData();
+                formData.append('user', currentUser);
+                formData.append('code', code);
+
+                const response = await fetch('api/verify_code.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Guardar sesión en localStorage
+                    localStorage.setItem('admin_logged', 'true');
+                    localStorage.setItem('admin_user', currentUser);
+                    localStorage.setItem('admin_login_time', new Date().toISOString());
+
+                    showAlert('✅ Acceso concedido. Redirigiendo...', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'crear';
+                    }, 1000);
+                } else {
+                    showAlert('❌ ' + data.message, 'error');
+                    document.getElementById('verificationCode').value = '';
+                    document.getElementById('verificationCode').focus();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error de conexión con el servidor', 'error');
+            } finally {
+                // Restaurar botón
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-check-circle"></i> Verificar código';
+            }
+        }
+
+        // ============================================================
+        //  TEMPORIZADOR (60 segundos para reenviar)
+        // ============================================================
+        function startTimer(seconds) {
+            timeLeft = seconds;
+            const timerDisplay = document.getElementById('timerDisplay');
+            const resendBtn = document.getElementById('resendBtn');
+            
+            resendBtn.disabled = true;
+            
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft + 's';
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = '⏰';
+                    resendBtn.disabled = false;
+                    timerInterval = null;
+                }
+            }, 1000);
+        }
+
+        // ============================================================
+        //  VOLVER AL PASO 1
+        // ============================================================
+        function goBackToStep1() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('stepTitle').textContent = 'Ingrese su usuario (sin contraseña)';
+            document.getElementById('verificationCode').value = '';
+            document.getElementById('adminUser').focus();
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            document.getElementById('timerDisplay').textContent = '60s';
+            document.getElementById('resendBtn').disabled = true;
+            
+            hideAlert();
+        }
+
+        // ============================================================
+        //  ENTER KEY
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            const step1Active = document.getElementById('step1').classList.contains('active');
+            const step2Active = document.getElementById('step2').classList.contains('active');
+            
+            if (e.key === 'Enter') {
+                if (step1Active) {
+                    e.preventDefault();
+                    requestCode();
+                } else if (step2Active) {
+                    e.preventDefault();
+                    verifyCode();
+                }
+            }
+        });
+
+        // ============================================================
+        //  SOLO NÚMEROS EN EL CÓDIGO
+        // ============================================================
+        document.getElementById('verificationCode').addEventListener('input', function() {
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // ============================================================
+        //  VERIFICAR SESIÓN ACTIVA
+        // ============================================================
+        function checkSession() {
+            if (localStorage.getItem('admin_logged') === 'true') {
+                const loginTime = localStorage.getItem('admin_login_time');
+                if (loginTime) {
+                    const elapsed = (new Date().getTime() - new Date(loginTime).getTime()) / (1000 * 60 * 60);
+                    if (elapsed < 8) {
+                        window.location.href = 'crear';
+                        return true;
+                    } else {
+                        localStorage.removeItem('admin_logged');
+                        localStorage.removeItem('admin_user');
+                        localStorage.removeItem('admin_login_time');
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Ejecutar verificación al cargar la página
+        if (checkSession()) {
+            // Si hay sesión activa, ya redirigió
+        }
+
+        // ============================================================
+        //  FOCUS AUTOMÁTICO
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminUser').focus();
+        });
+
+        // ============================================================
+        //  CERRAR SESIÓN DESDE OTRA PESTAÑA
+        // ============================================================
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'admin_logged' && e.newValue === null) {
+                window.location.reload();
+            }
+        });
+
+        console.log('🔐 Sistema de autenticación cargado correctamente');
+        console.log('📧 Usa tu usuario para recibir el código por correo');
+    </script>
+</body>
+</html>

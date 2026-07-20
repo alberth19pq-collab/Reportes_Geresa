@@ -1,5 +1,5 @@
 // ============================================
-// tabla02.js - COMPLETO CON SOPORTE NO_TRANS
+// tabla02.js - COMPLETO CON SOPORTE NO_TRANS Y METALES PESADOS
 // ============================================
 
 // ============================================
@@ -24,6 +24,8 @@ const CONFIG_DESARROLLO = {
         etiqueta: 'En ejecución'
     }
 };
+
+// 6 
 
 // ============================================
 // FUNCIONES DE SIDEBAR
@@ -257,6 +259,7 @@ function actualizarDotEstrategia(v) {
             'OCULAR': 'active-ocular',
             'BUCAL': 'active-bucal', 
             'METALES': 'active-metales',
+            'METALES_PESADOS': 'active-metales', // ✅ AGREGADO
             'NO_TRANS': 'active-no-trans',
             'MENTAL': 'active-mental'
         };
@@ -588,12 +591,6 @@ function limpiarEstilosFuente(wb) {
 }
 
 // ============================================
-// RENDERIZAR PLANTILLA - VERSIÓN SIMPLIFICADA
-// ============================================
-// ============================================
-// RENDERIZAR PLANTILLA - CON FILTRO DE FILAS POR GRUPO
-// ============================================
-// ============================================
 // RENDERIZAR PLANTILLA - VERSIÓN CORREGIDA
 // ============================================
 function renderizarPlantilla(workbook) {
@@ -917,15 +914,6 @@ function renderizarPlantilla(workbook) {
 // ============================================
 // ACTUALIZAR EXCEL CON DATOS - CON SOPORTE COMPLETO
 // ============================================
-// ============================================
-// ACTUALIZAR EXCEL CON DATOS - CON SOPORTE COMPLETO
-// ============================================
-// ============================================
-// ACTUALIZAR EXCEL CON DATOS - VERSIÓN CORREGIDA
-// ============================================
-// ============================================
-// ACTUALIZAR EXCEL CON DATOS - VERSIÓN CORREGIDA
-// ============================================
 function actualizarExcelConDatos(datosApi) {
     console.log('📊 Iniciando actualización de Excel con datos');
     console.log('📋 Tablas recibidas:', Object.keys(datosApi));
@@ -970,9 +958,76 @@ function actualizarExcelConDatos(datosApi) {
                 let coincide = false;
 
                 // ==========================================================
+                // 🔥🔥🔥 FILTROS METALES PESADOS 🔥🔥🔥
+                // ==========================================================
+                if (mapeo.filtro_orden) {
+                    const ordRegistro = String(registro.Orden || '').trim();
+                    const ordMapeo = String(mapeo.filtro_orden).trim();
+                    coincide = (ordRegistro === ordMapeo);
+                }
+                // SEGUNDO: Filtrar por Actividad
+                else if (mapeo.filtro_actividad) {
+                    const actRegistro = String(registro.Actividad || '').trim();
+                    const actMapeo = String(mapeo.filtro_actividad).trim();
+                    coincide = (actRegistro === actMapeo);
+                }
+                else if (mapeo.filtro_diagnostico) {
+                    const diagRegistro = String(registro.Diagnostico || '').trim();
+                    const diagMapeo = String(mapeo.filtro_diagnostico).trim();
+                    coincide = (diagRegistro === diagMapeo);
+                }
+                else if (mapeo.filtro_grupo_edad) {
+                    const edadRegistro = String(registro['Grupo de Edad'] || registro.grupo_edad || '').trim();
+                    const edadMapeo = String(mapeo.filtro_grupo_edad).trim();
+                    coincide = (edadRegistro === edadMapeo);
+                }
+                else if (mapeo.filtro_tipo_de_consejeria) {
+                    const consejRegistro = String(registro['Tipo de Consejería'] || registro.tipo_consejeria || '').trim();
+                    const consejMapeo = String(mapeo.filtro_tipo_de_consejeria).trim();
+                    coincide = (consejRegistro === consejMapeo);
+                }
+                else if (mapeo.filtro_clasificacion) {
+                    const clasifRegistro = String(registro.Clasificacion || registro.clasificacion || '').trim();
+                    const clasifMapeo = String(mapeo.filtro_clasificacion).trim();
+                    coincide = (clasifRegistro === clasifMapeo);
+                }
+                else if (mapeo.filtro_casos_diagnosticados_hta) {
+                    const htaRegistro = String(registro['Casos diagnosticados HTA'] || registro.casos_diagnosticados_hta || '').trim();
+                    const htaMapeo = String(mapeo.filtro_casos_diagnosticados_hta).trim();
+                    coincide = (htaRegistro === htaMapeo);
+                }
+                else if (mapeo.filtro_casos_diagnosticados_diabetes_mellitus) {
+                    const dmRegistro = String(registro['Casos diagnosticados Diabetes Mellitus'] || registro.casos_diagnosticados_diabetes_mellitus || '').trim();
+                    const dmMapeo = String(mapeo.filtro_casos_diagnosticados_diabetes_mellitus).trim();
+                    coincide = (dmRegistro === dmMapeo);
+                }
+                else if (mapeo.filtro_deteccion_de_tbc) {
+                    const tbcRegistro = String(registro['Detección de TBC'] || registro.deteccion_de_tbc || '').trim();
+                    const tbcMapeo = String(mapeo.filtro_deteccion_de_tbc).trim();
+                    coincide = (tbcRegistro === tbcMapeo);
+                }
+                else if (mapeo.filtro_salud_ocular) {
+                    const ocuRegistro = String(registro['Salud Ocular'] || registro.salud_ocular || '').trim();
+                    const ocuMapeo = String(mapeo.filtro_salud_ocular).trim();
+                    coincide = (ocuRegistro === ocuMapeo);
+                }
+                else if (mapeo.filtro_visita_familiar_integral) {
+                    const visRegistro = String(registro['Visita Familiar Integral'] || registro.visita_familiar_integral || '').trim();
+                    const visMapeo = String(mapeo.filtro_visita_familiar_integral).trim();
+                    coincide = (visRegistro === visMapeo);
+                }
+                else if (mapeo.filtro_situacion) {
+                    const sitRegistro = String(registro.Situacion || registro.situacion || '').trim();
+                    const sitMapeo = String(mapeo.filtro_situacion).trim();
+                    coincide = (sitRegistro === sitMapeo);
+                }
+
+                
+
+                // ==========================================================
                 // 🔥🔥🔥 1. FILTROS OCULAR (PRIMERO - ANTES QUE BUCAL) 🔥🔥🔥
                 // ==========================================================
-                if (mapeo.filtro_actividad_ocular) {
+                else if (mapeo.filtro_actividad_ocular) {
                     coincide = (String(registro.Actividad || '').trim() === String(mapeo.filtro_actividad_ocular).trim());
                 }
 
@@ -983,16 +1038,6 @@ function actualizarExcelConDatos(datosApi) {
                     const factorRegistro = String(registro.Factor || registro.factor || '').trim();
                     const factorMapeo = String(mapeo.filtro_factor).trim();
                     coincide = (factorRegistro === factorMapeo);
-                }
-                else if (mapeo.filtro_clasificacion) {
-                    const clasifRegistro = String(registro.Clasificacion || registro.clasificacion || '').trim();
-                    const clasifMapeo = String(mapeo.filtro_clasificacion).trim();
-                    coincide = (clasifRegistro === clasifMapeo);
-                }
-                else if (mapeo.filtro_diagnostico) {
-                    const diagRegistro = String(registro.Diagnostico || registro.diagnostico || '').trim();
-                    const diagMapeo = String(mapeo.filtro_diagnostico).trim();
-                    coincide = (diagRegistro === diagMapeo);
                 }
                 else if (mapeo.filtro_servicio) {
                     const servRegistro = String(registro.Servicio || registro.servicio || '').trim();
@@ -1015,9 +1060,6 @@ function actualizarExcelConDatos(datosApi) {
                 // ==========================================================
                 else if (mapeo.filtro_ppr) {
                     coincide = (String(registro.PpR || '').trim() === String(mapeo.filtro_ppr).trim());
-                }
-                else if (mapeo.filtro_actividad) {
-                    coincide = (String(registro.Actividad || '').trim() === String(mapeo.filtro_actividad).trim());
                 }
                 else if (mapeo.subtitulo) {
                     const subtituloRegistro = String(registro.SUBTITULO || '').trim();
@@ -1128,6 +1170,7 @@ function actualizarExcelConDatos(datosApi) {
     console.log(`📊 TOTAL: ${contadorActualizados} celdas actualizadas (${estrategiaActual})`);
     return { actualizados: contadorActualizados };
 }
+
 // ============================================
 // DIAGNÓSTICO - VER ESTRUCTURA DE DATOS
 // ============================================
@@ -1142,7 +1185,12 @@ function diagnosticarDatos(datosApi, mapeoActual) {
             console.log(`   Columnas disponibles:`, Object.keys(data[0]));
             console.log(`   Primer registro:`, data[0]);
             
-            const columnasImportantes = ['Factor', 'Clasificacion', 'Diagnostico', 'Servicio', 'Riesgo', 'Sesion', 'TOTAL', 'Total'];
+            const columnasImportantes = [
+                'Factor', 'Clasificacion', 'Diagnostico', 'Servicio', 'Riesgo', 'Sesion', 
+                'TOTAL', 'Total', 'Actividad', 'Grupo de Edad', 'Tipo de Consejería',
+                'Casos diagnosticados HTA', 'Casos diagnosticados Diabetes Mellitus',
+                'Detección de TBC', 'Salud Ocular', 'Visita Familiar Integral', 'Situacion'
+            ];
             columnasImportantes.forEach(col => {
                 if (data[0].hasOwnProperty(col)) {
                     const valores = data.map(r => String(r[col] || 'SIN VALOR').trim());
@@ -1272,12 +1320,6 @@ async function cargarDatos() {
     }
 }
 
-// ============================================
-// DESCARGA EN PDF - VERSIÓN UNIFICADA CON ANCHOS POR ESTRATEGIA
-// ============================================
-// ============================================
-// DESCARGA EN PDF - VERSIÓN UNIFICADA CON ANCHOS POR ESTRATEGIA Y FILTROS
-// ============================================
 // ============================================
 // DESCARGA EN PDF - VERSIÓN CON NUEVA PESTAÑA
 // ============================================
@@ -1412,6 +1454,24 @@ function descargarPDF() {
                 }
                 #pdf-table td:nth-child(n+5), #pdf-table th:nth-child(n+5) { 
                     min-width: 35px;
+                }
+            `;
+        } else if (estrategiaActual === 'METALES' || estrategiaActual === 'METALES_PESADOS') {
+            colWidthsCSS = `
+                #pdf-table td:first-child, #pdf-table th:first-child { 
+                    width: 5px; min-width: 5px; max-width: 15px; font-size: 6px; 
+                }
+                #pdf-table td:nth-child(2), #pdf-table th:nth-child(2) { 
+                    width: 180px; min-width: 150px; max-width: 300px; font-size: 7px; 
+                }
+                #pdf-table td:nth-child(3), #pdf-table th:nth-child(3) { 
+                    width: 20px; min-width: 20px; max-width: 30px; text-align: center; font-size: 7px; 
+                }
+                #pdf-table td:nth-child(4), #pdf-table th:nth-child(4) { 
+                    width: 250px; min-width: 200px; max-width: 400px; text-align: left; font-size: 7px; 
+                }
+                #pdf-table td:nth-child(n+5), #pdf-table th:nth-child(n+5) { 
+                    width: 30px; min-width: 25px; max-width: 45px; font-size: 7px; 
                 }
             `;
         } else {
@@ -1725,11 +1785,14 @@ function mostrarMensaje(mensaje, tipo) {
 // ============================================
 async function cargarPermisosUsuario() {
     const dni = localStorage.getItem('dniusuario');
+
+
     if (!dni) {
-        alert('Sesión expirada.');
+        
         window.location.href = 'inicio.html';
         return false;
     }
+    
 
     try {
         const res = await fetch('api/api_tipos_usuarios.php?' + new URLSearchParams({ dni }));
@@ -1824,8 +1887,20 @@ async function cargarPermisosUsuario() {
 }
 
 function cerrarSesion() {
+    // Limpiar localStorage
     localStorage.clear();
-    window.location.href = 'inicio.html';
+    
+    // Llamar al script PHP para cerrar sesión
+    fetch('api/cerrar_sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Sesión cerrada:', data);
+            window.location.href = 'inicio.html';
+        })
+        .catch(() => {
+            // Si falla, igual redirigir
+            window.location.href = 'inicio.html';
+        });
 }
 
 // ============================================
@@ -1897,9 +1972,6 @@ async function onEstrategiaChange() {
 
 // ============================================
 // INICIALIZACIÓN
-// ============================================
-// ============================================
-// INICIALIZACIÓN - MODIFICADA
 // ============================================
 window.onload = async function () {
     console.log('🚀 Iniciando tabla02 (Plantilla Excel)...');
@@ -1998,9 +2070,6 @@ function mostrarFiltrosAplicados() {
 }
 
 
-// ============================================
-// AGREGAR BARRA DE SCROLL HORIZONTAL ARRIBA (ESTÁTICA - STICKY)
-// ============================================
 // ============================================
 // AGREGAR BARRA DE SCROLL HORIZONTAL ARRIBA (ESTÁTICA - STICKY)
 // ============================================
@@ -2137,9 +2206,6 @@ function agregarScrollbarHorizontalArriba() {
 // ============================================
 // FUNCIÓN PARA ACTUALIZAR LA FECHA EN EL SIDEBAR
 // ============================================
-// ============================================
-// ACTUALIZAR FECHA - VERSIÓN MEJORADA
-// ============================================
 async function actualizarFechaActualizacion() {
     try {
         const response = await fetch('api/api_catalogos.php?tipo=ACTUALIZACION');
@@ -2191,12 +2257,6 @@ async function actualizarFechaActualizacion() {
 // ============================================
 // CAMBIAR DE PESTAÑA DE REPORTES
 // ============================================
-// ============================================
-// CAMBIAR DE PESTAÑA DE REPORTES
-// ============================================
-// ============================================
-// CAMBIAR DE PESTAÑA DE REPORTES
-// ============================================
 function switchReportTab(tabId) {
     // 1. Actualizar grupo actual
     grupoActual = tabId;
@@ -2228,9 +2288,6 @@ function switchReportTab(tabId) {
 
 // ============================================
 // FILTRAR CHECKBOXES SEGÚN PESTAÑA
-// ============================================
-// ============================================
-// FILTRAR CHECKBOXES SEGÚN PESTAÑA (SOLO OCULTAR/MOSTRAR)
 // ============================================
 function filtrarCheckboxesPorPestana(tabId) {
     // Obtener todos los checkboxes

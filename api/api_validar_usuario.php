@@ -3,11 +3,11 @@
 header("Content-Type: application/json; charset=utf-8");
 
 session_start();
-
+$_SESSION ['abcxxx'] = 'xxx000';
 require 'conexion.php';
 
-$dni      = trim($_POST["dni"] ?? "");
-$password = trim($_POST["password"] ?? "");
+$dni      = htmlentities( trim($_POST["dni"] ?? ""));
+$password = htmlentities( trim($_POST["password"] ?? "")); 
 
 if ($dni === "" || $password === "") {
     echo json_encode([
@@ -19,7 +19,7 @@ if ($dni === "" || $password === "") {
 
 // Llamar al procedimiento almacenado
 $sql = "{ CALL dbo.USUARIO_VALIDAR(?) }";
-
+//
 $stmt = sqlsrv_query($conn, $sql, [$dni]);
 
 if ($stmt === false) {
@@ -48,6 +48,7 @@ if (password_get_info($dbPass)['algo']) {
     $isValid = password_verify($password, $dbPass);
 } else {
     $isValid = ($password === $dbPass);
+    $_SESSION['abcxxx'] = 'xxx001';
 }
 
 if (!$isValid) {

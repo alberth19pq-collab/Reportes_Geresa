@@ -1,3 +1,13 @@
+<?php 
+session_start();
+
+
+if (!isset($_SESSION['abcxxx']) || $_SESSION['abcxxx'] !== 'xxx001') {
+    header('Location: inicio.html');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,6 +23,7 @@
 
   <!-- ✅ XLSX - Para leer y manipular datos -->
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  
   
   <!-- ✅ ExcelJS - Para exportar con estilos -->
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -147,11 +158,11 @@
             <optgroup label="── Estrategias ──">
               <option value="BUCAL">🦷 Salud Bucal</option>
               <option value="OCULAR">👁️ Salud Ocular</option>
-              <option value="METALES">⚗️ Metales Pesados</option>
+              <option value="METALES_PESADOS">⚗️ Metales Pesados</option> 
               <option value="NO_TRANS">❤️ No Transmisibles</option>
             </optgroup>
             <optgroup label="── En desarrollo ──">
-              <option value="MENTAL">🧠 Salud Mental</option>
+              <option value="MENTAL">🧠 Salud Mental</option> 
             </optgroup>
           </select>
           <span class="estrategia-dot" id="estrategiaDot"></span>
@@ -306,6 +317,7 @@
 <script src="js/mapeos/mapeo_bucal.js"></script>
 <script src="js/mapeos/mapeo_ocular.js"></script>
 <script src="js/mapeos/mapeo_no_trans.js"></script>   
+<script src="js/mapeos/mapeo_metales_pesados.js"></script>
 
 <!-- MAPEO GLOBAL (debe ir DESPUÉS de los mapeos específicos) -->
 <script src="js/mapeos/mapeo_global.js"></script>

@@ -1,4 +1,7 @@
 <?php
+// ============================================================
+//  CONEXIÓN A SQL SERVER - BASE DE DATOS "Nube"
+// ============================================================
 
 $serverName = "localhost";
 $database = "Nube";
@@ -13,10 +16,6 @@ $connectionOptions = array(
     "TrustServerCertificate" => true
 );
 
-// Intentar conectar
 $conn = sqlsrv_connect($serverName, $connectionOptions);
-
-// NO mostrar nada, solo devolver la conexión
-// Si falla, $conn será false y quien incluya este archivo lo manejará
 
 ?>

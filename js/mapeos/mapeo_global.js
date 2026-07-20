@@ -1,21 +1,23 @@
 // js/mapeos/mapeo_global.js
 
 // ✅ Verificar que el mapeo existe
-console.log('🔍 MAPEO_CELDAS_NO_TRANS existe?', typeof MAPEO_CELDAS_NO_TRANS !== 'undefined');
+//console.log('🔍 MAPEO_CELDAS_NO_TRANS existe?', typeof MAPEO_CELDAS_NO_TRANS !== 'undefined');
 
 const MAPEO_MAESTRO = {
     'BUCAL': typeof MAPEO_CELDAS_BUCAL !== 'undefined' ? MAPEO_CELDAS_BUCAL : {},
     'OCULAR': typeof MAPEO_CELDAS_OCULAR !== 'undefined' ? MAPEO_CELDAS_OCULAR : {},
-    'NO_TRANS': typeof MAPEO_CELDAS_NO_TRANS !== 'undefined' ? MAPEO_CELDAS_NO_TRANS : {}
+    'NO_TRANS': typeof MAPEO_CELDAS_NO_TRANS !== 'undefined' ? MAPEO_CELDAS_NO_TRANS : {},
+    'METALES_PESADOS': typeof MAPEO_CELDAS_METALES !== 'undefined' ? MAPEO_CELDAS_METALES : {} // ← CORREGIDO
 };
 
 // ✅ Log para verificar que NO_TRANS está en el mapeo
-console.log('📋 MAPEO_MAESTRO.NO_TRANS:', MAPEO_MAESTRO.NO_TRANS ? Object.keys(MAPEO_MAESTRO.NO_TRANS).length + ' claves' : 'NO EXISTE');
+//console.log('📋 MAPEO_MAESTRO.NO_TRANS:', MAPEO_MAESTRO.NO_TRANS ? Object.keys(MAPEO_MAESTRO.NO_TRANS).length + ' claves' : 'NO EXISTE');
 
 const CONFIG_MAESTRO = {
     'BUCAL': typeof CONFIG_BUCAL !== 'undefined' ? CONFIG_BUCAL : null,
     'OCULAR': typeof CONFIG_OCULAR !== 'undefined' ? CONFIG_OCULAR : null,
-    'NO_TRANS': typeof CONFIG_NO_TRANS !== 'undefined' ? CONFIG_NO_TRANS : null
+    'NO_TRANS': typeof CONFIG_NO_TRANS !== 'undefined' ? CONFIG_NO_TRANS : null,
+    'METALES_PESADOS': typeof CONFIG_METALES !== 'undefined' ? CONFIG_METALES : null, // ✅ CORRECTO
 };
 
 // ============================================

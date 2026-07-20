@@ -27,7 +27,11 @@ function handleException($e) {
 }
 set_exception_handler("handleException");
 
+// ============================================================
+// 🔥 INICIAR SESIÓN ANTES DE ENVIAR HEADERS
+// ============================================================
 session_start();
+
 header("Content-Type: application/json; charset=utf-8");
 
 // ============================================
@@ -43,11 +47,6 @@ if (file_exists('api/conexion.php')) {
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
-
-
-
-// este es un comentario de prueba
-
 
 if (!isset($conn) || $conn === false) {
     echo json_encode([
@@ -265,11 +264,25 @@ if ($stmtInsert === false) {
 }
 
 /* =========================================
+   🔥🔥🔥 INICIAR SESIÓN PARA EL USUARIO 🔥🔥🔥
+========================================= */
+// Guardar datos en la sesión para que tabla02.html pueda validar
+$_SESSION['abcxxx'] = 'xxx001';
+$_SESSION['dni'] = $dni;
+$_SESSION['cargo'] = $cargo;
+$_SESSION['ue'] = $ue;
+$_SESSION['red'] = $red;
+$_SESSION['microred'] = $microred;
+$_SESSION['eess'] = $eess;
+$_SESSION['nombre'] = $personal['Nombre_Completo'] ?? '';
+
+/* =========================================
    RESPUESTA EXITOSA
 ========================================= */
 echo json_encode([
     "success" => true,
-    "message" => "Cuenta creada correctamente"
+    "message" => "Cuenta creada correctamente",
+    "session_started" => true
 ], JSON_UNESCAPED_UNICODE);
 
 sqlsrv_free_stmt($stmtInsert);

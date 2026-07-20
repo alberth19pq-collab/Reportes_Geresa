@@ -3,399 +3,699 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GERESA Cusco | Estrategias Sanitarias</title>
+<title>GERESA Cusco · Plataforma de Reportes</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
 <style>
-:root{
-  --bg:#eaf0f7;
-  --panel:#101927;
-  --panel-2:#162235;
-  --panel-3:#1b2940;
-  --card:#1a2739;
-  --card-2:#203148;
-  --primary:#5b6cff;
-  --primary-2:#4656e8;
-  --accent:#14b8a6;
-  --text:#0f172a;
-  --muted:#7c8aa2;
-  --border:#dbe5f0;
-  --shadow:0 10px 30px rgba(15,23,42,.08);
-  --shadow-strong:0 20px 60px rgba(15,23,42,.16);
-}
-
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+
+:root {
+  --sidebar-bg: linear-gradient(180deg, #0a0f1c 0%, #0f172a 100%);
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --primary-light: #eff6ff;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --white: #ffffff;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+}
+
 body{
-  font-family:'Sora',sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height:100vh;
-  color:#fff;
-  background:
-    radial-gradient(circle at top left, rgba(91,108,255,.12), transparent 25%),
-    radial-gradient(circle at top right, rgba(20,184,166,.10), transparent 22%),
-    linear-gradient(180deg, #f7fbff 0%, var(--bg) 100%);
+  color:var(--text);
+  background-color:var(--bg);
 }
 
-.main{
-  padding:22px;
-  min-width:0;
+.mono{font-family:'Inter', sans-serif}
+
+.main{padding:26px 24px 40px;min-width:0;max-width:1400px;margin:0 auto}
+
+/* ============================================
+   ENCABEZADO OFICIAL - ESTILO LOGIN
+   ============================================ */
+.header-official{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+  background: var(--surface);
+  padding: 24px 30px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.header-official h1{
+  font-family:'Inter', sans-serif;
+  font-weight:800;
+  font-size:2.1rem;
+  color:var(--text);
+  letter-spacing:-0.01em;
+  line-height:1.15;
+  max-width:640px;
+}
+.header-text .sub{
+  font-size:13.5px;
+  font-weight:500;
+  color:var(--text-muted);
+  margin-top:8px;
+  border-left:3px solid var(--primary);
+  padding-left:12px;
+}
+.header-text .sub b{color:var(--text);font-weight:700}
+
+.stamp{
+  position:relative;
+  width:96px;height:96px;
+  border-radius:50%;
+  border:2px dashed var(--danger);
+  display:flex;align-items:center;justify-content:center;
+  transform:rotate(-8deg);
+  color:var(--danger);
+  flex-shrink:0;
+  opacity:.9;
+}
+.stamp::before{
+  content:"";
+  position:absolute;inset:7px;
+  border:1px dashed var(--danger);
+  border-radius:50%;
+  opacity:.6;
+}
+.stamp .stamp-text{
+  font-family:'Inter', sans-serif;
+  font-size:9.5px;
+  font-weight:700;
+  text-align:center;
+  line-height:1.35;
+  letter-spacing:.03em;
 }
 
+.pulse-divider{
+  width:100%;
+  height:18px;
+  margin-bottom:18px;
+  opacity:.55;
+}
+
+/* ============================================
+   BARRA DE CARPETAS
+   ============================================ */
 .topbar{
   position:sticky;
   top:0;
   z-index:30;
-  background:rgba(239,244,251,.88);
-  backdrop-filter:blur(14px);
-  border:1px solid rgba(219,229,240,.9);
-  border-radius:24px;
-  padding:16px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  box-shadow:var(--shadow);
+  background:rgba(248,250,252,.92);
+  backdrop-filter:blur(10px);
+  padding-top:6px;
+  margin-bottom:24px;
 }
 
 .filters{
   display:flex;
-  gap:8px;
   flex-wrap:wrap;
-  align-items:center;
-  flex:0 0 auto;
+  gap:5px;
+  align-items:flex-end;
 }
 
 .filter-btn{
-  border:none;
-  border-radius:999px;
-  padding:10px 14px;
-  font-family:'Sora',sans-serif;
-  font-size:12px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.2s;
-  background:#e2e8f0;
-  color:#334155;
-  white-space:nowrap;
-}
-.filter-btn:hover,
-.filter-btn.active{
-  background:linear-gradient(135deg, var(--primary), var(--primary-2));
-  color:white;
-}
-
-.search{
-  flex:1;
-  min-width:0;
-}
-.search input{
-  width:100%;
+  position:relative;
   border:1px solid var(--border);
-  background:white;
-  border-radius:16px;
-  padding:14px 16px;
-  outline:none;
-  font-size:13px;
-  box-shadow:var(--shadow);
-}
-.search input:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(91,108,255,.12);
-}
-
-.top-actions{
-  display:flex;
-  gap:10px;
-  flex-shrink:0;
-}
-.action-btn{
-  border:none;
-  border-radius:14px;
-  padding:13px 16px;
-  font-family:'Sora',sans-serif;
-  font-weight:700;
+  border-bottom:none;
+  background:#e2e8f0;
+  color:var(--text-muted);
+  font-family:'Inter', sans-serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  padding:11px 18px 9px;
+  border-radius:8px 8px 0 0;
   cursor:pointer;
-  transition:.2s;
-  white-space:nowrap;
+  transition:.18s;
+  box-shadow:0 -1px 0 rgba(255,255,255,.4) inset;
 }
-.action-primary{
-  background:linear-gradient(135deg, var(--primary), var(--primary-2));
-  color:white;
+.filter-btn::before{
+  content:"";
+  position:absolute;
+  top:-1px;left:0;right:0;
+  height:4px;
+  border-radius:8px 8px 0 0;
+  background:var(--text-light);
+  opacity:.6;
 }
-.action-secondary{
-  display:none;
+.filter-btn[data-filter="all"]::before{background:var(--primary)}
+.filter-btn[data-filter="tutoriales"]::before{background:var(--warning)}
+.filter-btn[data-filter="manuales"]::before{background:var(--text-light)}
+.filter-btn[data-filter="cie10"]::before{background:var(--text)}
+.filter-btn[data-filter="codigos"]::before{background:var(--primary)}
+.filter-btn[data-filter="cese"]::before{background:var(--danger)}
+
+.filter-btn:hover{background:#e8ecf0;color:var(--text)}
+.filter-btn.active{
+  background:var(--surface);
+  color:var(--text);
+  transform:translateY(-3px);
+  box-shadow:0 -6px 14px rgba(15,23,42,.10);
+  border-color:var(--border);
 }
 
-.section-head{
+.folder-body{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:0 12px 12px 12px;
+  padding:16px 18px;
   display:flex;
   justify-content:space-between;
-  align-items:end;
-  margin:22px 0 14px;
-  gap:12px;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  box-shadow:var(--shadow);
 }
-.section-head h3{
+.folder-label{
   font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.18em;
-  color:#64748b;
+  color:var(--text-muted);
+  font-family:'Inter', sans-serif;
 }
-.section-head span{
-  font-size:13px;
-  color:#64748b;
+.folder-label b{color:var(--text);font-family:'Inter', sans-serif}
+
+/* Botón rojo desde el inicio */
+.action-btn{
+  background:var(--danger);
+  color:#fff;
+  border:2px solid var(--danger);
+  border-radius:8px;
+  padding:10px 20px;
+  font-family:'Inter', sans-serif;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.18s;
+  white-space:nowrap;
+}
+.action-btn:hover{
+  background:#dc2626;
+  border-color:#dc2626;
+  transform:rotate(-1deg);
 }
 
+/* ============================================
+   GRID DE FICHAS
+   ============================================ */
 .modules{
+  counter-reset:ficha;
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-  gap:14px;
+  grid-template-columns:repeat(5, 1fr);
+  gap:16px;
 }
 
 .module{
-  background:linear-gradient(135deg, rgba(26,39,57,.98), rgba(32,49,72,.98));
-  border:1px solid rgba(255,255,255,.05);
-  border-radius:18px;
-  overflow:hidden;
+  counter-increment:ficha;
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
   display:grid;
-  grid-template-rows:180px 1fr auto;
-  min-height:320px;
+  grid-template-rows:140px 1fr;
+  min-height:230px;
   box-shadow:var(--shadow);
-  transition:.22s ease;
+  transition:.2s ease;
+  overflow:hidden;
+  cursor:pointer;
 }
 .module:hover{
   transform:translateY(-4px);
-  box-shadow:var(--shadow-strong);
-  border-color:rgba(91,108,255,.28);
+  box-shadow:var(--shadow-lg);
+  border-color:var(--primary);
+}
+
+/* ===== ETIQUETA BASE ===== */
+.module::before{
+  position:absolute;
+  top:0;left:14px;
+  color:#fff;
+  font-family:'Inter', sans-serif;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:.05em;
+  padding:5px 9px 4px;
+  border-radius:0 0 5px 5px;
+  z-index:2;
+  box-shadow:0 3px 6px rgba(0,0,0,.18);
+}
+
+/* ===== ETIQUETA "ESTRATEGIA ACTIVA" (VERDE) ===== */
+.module.activa::before {
+  content:"✅ ESTRATEGIA ACTIVA";
+  background:var(--success);
+}
+
+/* ===== ETIQUETA "ESTRATEGIA EN PROCESO" (AMARILLO) ===== */
+.module.en-proceso::before {
+  content:"⏳ ESTRATEGIA EN PROCESO";
+  background:var(--warning);
+  animation:pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.97); }
+}
+
+/* ===== Overlay para módulos en proceso ===== */
+.module.en-proceso .module-media::after {
+  background:linear-gradient(155deg, rgba(15,23,42,.75) 0%, rgba(245,158,11,.35) 100%);
 }
 
 .module-media{
   position:relative;
   overflow:hidden;
-  background:#0f172a;
+  background:var(--text);
 }
 .module-media img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
+  filter:grayscale(55%) contrast(1.08);
 }
 .module-media::after{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg, rgba(11,18,32,.00) 0%, rgba(11,18,32,.18) 100%);
+  background:linear-gradient(155deg, rgba(15,23,42,.65) 0%, rgba(239,68,68,.28) 100%);
+  mix-blend-mode:multiply;
 }
 
 .module-content{
-  padding:18px 18px 16px;
+  position:relative;
+  padding:16px 14px 14px 26px;
   min-width:0;
+  border-top:1px dashed var(--border);
+}
+.module-content::before{
+  content:"";
+  position:absolute;
+  left:13px;top:10px;bottom:10px;
+  width:1px;
+  background:var(--danger);
+  opacity:.30;
+}
+.module-content::after{
+  content:"";
+  position:absolute;
+  left:5px;top:8px;
+  width:5px;height:5px;
+  border-radius:50%;
+  background:var(--bg);
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 22px 0 0 var(--bg), 0 22px 0 1px var(--border),
+    0 44px 0 0 var(--bg), 0 44px 0 1px var(--border);
 }
 
 .module-title{
-  font-family:'DM Serif Display',serif;
-  font-size:1.3rem;
-  line-height:1.1;
-  color:#fff;
-  margin-bottom:8px;
-}
-
-.module-desc{
-  color:rgba(255,255,255,.85);
-  font-size:13px;
-  line-height:1.55;
-  margin-bottom:14px;
-  max-width:100%;
-}
-
-.module-meta{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.pill{
-  font-size:11px;
-  padding:7px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.10);
-  color:rgba(255,255,255,.88);
-}
-
-.module-actions{
-  display:flex;
-  gap:10px;
-  padding:16px;
-  border-top:1px solid rgba(255,255,255,.06);
-  background:rgba(0,0,0,.06);
-}
-
-.link-btn{
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:12px 12px;
-  border-radius:14px;
+  font-family:'Inter', sans-serif;
   font-weight:700;
-  font-size:13px;
-  transition:.2s;
-  flex:1;
+  font-size:1.02rem;
+  line-height:1.18;
+  color:var(--text);
+  margin-bottom:6px;
 }
-
-.btn-manual{
-  background:#eef2ff;
-  color:#3f4fd8;
-}
-.btn-manual:hover{
-  background:var(--primary);
-  color:#fff;
-}
-.btn-dash{
-  background:#0f172a;
-  color:#fff;
-}
-.btn-dash:hover{
-  background:#111827;
-}
-
-.footer{
-  margin-top:22px;
-  background:linear-gradient(135deg, #0b1220, #111a30);
-  color:rgba(255,255,255,.65);
-  border-radius:22px;
-  padding:18px 20px;
+.module-desc{
+  color:var(--text-muted);
   font-size:12px;
+  line-height:1.5;
 }
 
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer{
+  margin-top:36px;
+  position:relative;
+  padding-top:20px;
+  text-align:center;
+  color:var(--text-muted);
+  font-family:'Inter', sans-serif;
+  font-size:11px;
+  letter-spacing:.03em;
+}
+.footer::before{
+  content:"✂ ————————————————————————————————————————————————————————————————";
+  display:block;
+  color:var(--border);
+  font-size:12px;
+  margin-bottom:14px;
+  letter-spacing:0;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+/* ============================================
+   MODAL DE LOGIN - VERSIÓN PROFESIONAL
+   ============================================ */
 .modal-backdrop{
   position:fixed;
   inset:0;
-  background:rgba(15,23,42,.60);
+  background:rgba(15,23,42,.65);
   backdrop-filter:blur(8px);
   display:none;
   align-items:center;
   justify-content:center;
   z-index:999;
   padding:20px;
+  animation:fadeIn .3s ease;
 }
-.modal-backdrop.show{display:flex;}
+.modal-backdrop.show{display:flex}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.96)}
+  to{opacity:1;transform:scale(1)}
+}
+
 .modal{
-  width:min(460px,100%);
-  background:white;
-  border-radius:28px;
-  padding:32px;
-  box-shadow:var(--shadow-strong);
+  width:min(440px,100%);
+  background:var(--surface);
+  border-radius:20px;
+  padding:0;
+  box-shadow:0 30px 80px rgba(15,23,42,.35);
   position:relative;
   color:var(--text);
+  overflow:hidden;
+  animation:slideUp .35s ease;
 }
+
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ===== BANDA SUPERIOR ===== */
+.modal-band{
+  background:linear-gradient(145deg, #0a0f1c 0%, #0f172a 50%, #1a2338 100%);
+  color:#fff;
+  padding:32px 32px 28px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Decoración de fondo de la banda */
+.modal-band::before{
+  content:'';
+  position:absolute;
+  top:-60px;
+  right:-60px;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  background:rgba(59,130,246,.06);
+  pointer-events:none;
+}
+
+.modal-band::after{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:4px;
+  background:repeating-linear-gradient(90deg, var(--danger) 0 14px, transparent 14px 28px);
+}
+
+.band-decoration{
+  display:flex;
+  gap:6px;
+  margin-bottom:16px;
+}
+.band-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.1);
+}
+.band-dot:nth-child(1){background:var(--danger);}
+.band-dot:nth-child(2){background:var(--warning);}
+.band-dot:nth-child(3){background:var(--success);}
+
+.modal-band small{
+  font-family:'Inter', sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:#93c5fd;
+  font-weight:600;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.modal-band small i{font-size:12px;}
+
+.modal-band h4{
+  font-family:'Inter', sans-serif;
+  font-weight:800;
+  font-size:1.8rem;
+  margin:6px 0 4px;
+  letter-spacing:-0.02em;
+  background:linear-gradient(135deg, #fff 60%, #93c5fd);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.band-sub{
+  font-size:13px;
+  color:rgba(255,255,255,.6);
+  margin:0;
+  font-weight:400;
+  -webkit-text-fill-color:rgba(255,255,255,.6);
+}
+
 .modal-close{
   position:absolute;
-  top:16px;
-  right:16px;
-  width:38px;height:38px;
-  border:none;
-  border-radius:12px;
-  background:#f1f5f9;
+  top:14px;
+  right:14px;
+  width:34px;
+  height:34px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.5);
   cursor:pointer;
-  font-size:22px;
+  font-size:18px;
+  transition:.25s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.modal small{
-  text-transform:uppercase;
-  letter-spacing:.15em;
-  color:var(--primary);
-  font-weight:700;
+.modal-close:hover{
+  background:rgba(239,68,68,.2);
+  color:#fff;
+  border-color:var(--danger);
+  transform:rotate(90deg);
 }
-.modal h4{
-  font-family:'DM Serif Display',serif;
-  font-size:2rem;
-  margin:10px 0 8px;
+
+/* ===== CUERPO DEL MODAL ===== */
+.modal-body{
+  padding:28px 32px 24px;
 }
-.modal p{
-  color:var(--muted);
-  line-height:1.7;
+
+.modal-body p{
+  color:var(--text-muted);
+  line-height:1.6;
   margin-bottom:20px;
-  font-size:14px;
+  font-size:13.5px;
 }
-.field{margin-bottom:14px}
+
+.field{
+  margin-bottom:18px;
+}
+.field:last-of-type{margin-bottom:22px;}
+
 .field label{
-  display:block;
+  display:flex;
+  align-items:center;
+  gap:8px;
   margin-bottom:6px;
-  font-size:12px;
-  color:var(--muted);
+  font-family:'Inter', sans-serif;
+  font-size:10.5px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--text-muted);
   font-weight:600;
 }
+.field label i{
+  font-size:14px;
+  color:var(--primary);
+}
+
 .field input{
   width:100%;
-  border:1px solid var(--border);
-  background:#f8fafc;
-  border-radius:14px;
-  padding:14px;
+  border:1.5px solid var(--border);
+  background:var(--bg);
+  border-radius:12px;
+  padding:12px 16px;
   outline:none;
+  font-family:'Inter', sans-serif;
+  font-size:14px;
+  color:var(--text);
+  transition:.25s;
 }
 .field input:focus{
   border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(91,108,255,.10);
+  background:var(--surface);
+  box-shadow:0 0 0 4px rgba(59,130,246,.08);
 }
+
+.field-hint{
+  display:block;
+  font-size:10px;
+  color:var(--text-light);
+  margin-top:4px;
+  padding-left:4px;
+}
+
+/* ===== WRAPPER CONTRASEÑA ===== */
+.password-wrapper{
+  position:relative;
+}
+.password-wrapper input{
+  padding-right:48px;
+}
+.toggle-password{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  background:transparent;
+  border:none;
+  color:var(--text-light);
+  cursor:pointer;
+  font-size:18px;
+  padding:4px;
+  transition:.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.toggle-password:hover{color:var(--text);}
+
+/* ===== BOTONES ===== */
 .modal-actions{
   display:flex;
-  gap:10px;
-  margin-top:22px;
+  gap:12px;
+  margin-top:4px;
+  flex-wrap:wrap;
 }
 .btn{
   border:none;
-  border-radius:14px;
-  padding:14px;
-  font-family:'Sora',sans-serif;
-  font-weight:700;
+  border-radius:12px;
+  padding:13px 20px;
+  font-family:'Inter', sans-serif;
+  font-weight:600;
+  font-size:13px;
   cursor:pointer;
+  text-align:center;
+  transition:.25s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex:1;
 }
-.btn-cancel{flex:1;background:#e2e8f0}
-.btn-enter{flex:2;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:white}
+.btn-cancel{
+  background:var(--bg);
+  color:var(--text-muted);
+  border:1px solid var(--border);
+}
+.btn-cancel:hover{
+  background:#e2e8f0;
+  color:var(--text);
+}
+.btn-enter{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(59,130,246,.3);
+}
+.btn-enter:hover{
+  background:var(--primary-dark);
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(59,130,246,.35);
+}
+.btn-enter:active{transform:translateY(0);}
 
+/* ===== FOOTER DEL MODAL - Mensaje institucional ===== */
+.modal-footer{
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--border);
+  text-align:center;
+}
+
+.modal-footer .institutional-message{
+  font-size:12px;
+  color:var(--text-muted);
+  line-height:1.7;
+}
+
+.modal-footer .institutional-message strong{
+  color:var(--text);
+  font-weight:700;
+}
+
+.modal-footer .institutional-message .highlight{
+  color:var(--danger);
+  font-weight:600;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 @media(max-width:1100px){
-  .modules{
-    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-  }
+  .modules{grid-template-columns:repeat(3, 1fr)}
 }
 
-@media(max-width:900px){
-  .topbar{
-    flex-direction:column;
-    align-items:stretch;
-  }
-  .filters{
-    width:100%;
-  }
-  .top-actions{
-    width:100%;
-  }
-  .action-primary{
-    width:100%;
-  }
+@media(max-width:700px){
+  .topbar{position:static}
+  .folder-body{flex-direction:column;align-items:stretch}
+  .action-btn{width:100%}
+  .header-official{flex-direction:column;padding:20px}
+  .header-official h1{font-size:1.6rem}
+  .modules{grid-template-columns:1fr 1fr}
 }
 
-@media(max-width:800px){
-  .main{padding:14px}
-  .modules{
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-  }
-  .module{
-    grid-template-rows:170px 1fr auto;
-  }
-  .module-actions{
-    flex-direction:column;
-  }
-}
-
-@media(max-width:520px){
-  .filters{
-    gap:6px;
-  }
-  .filter-btn{
-    flex:1 1 auto;
+@media(max-width:480px){
+  .modules{grid-template-columns:1fr}
+  .header-official{flex-direction:column;padding:16px}
+  .header-official h1{font-size:1.3rem}
+  .stamp{width:72px;height:72px}
+  .stamp .stamp-text{font-size:8px}
+  .modal-band{padding:24px 20px 22px;}
+  .modal-band h4{font-size:1.4rem;}
+  .modal-body{padding:20px;}
+  .modal-actions{flex-direction:column;}
+  .btn{flex:none;width:100%;}
+  .btn-enter{order:1;}
+  .btn-cancel{order:2;}
+  .modal-footer .institutional-message{
+    font-size:11px;
   }
 }
 </style>
@@ -403,200 +703,458 @@ body{
 
 <body>
 <main class="main">
+
+  <!-- ==========================================
+  ENCABEZADO OFICIAL
+  ========================================== -->
+  <div class="header-official">
+    <div class="header-text">
+      <h1>Plataforma de Reportes Operacionales</h1>
+      <div class="sub">GERENCIA REGIONAL DE SALUD CUSCO · <b>Dirección de Estadística e Informática</b></div>
+    </div>
+    <div class="stamp">
+      <div class="stamp-text">OFICINA<br>DE<br>★ ESTADISTICA ★</div>
+    </div>
+  </div>
+
+  <svg class="pulse-divider" viewBox="0 0 1200 24" preserveAspectRatio="none">
+    <polyline points="0,12 380,12 410,12 425,2 440,22 455,4 470,20 485,12 520,12 1200,12"
+      fill="none" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- ==========================================
+  BARRA DE CARPETAS
+  ========================================== -->
   <div class="topbar">
     <div class="filters" id="filtersBar">
-      <button class="filter-btn active" data-filter="all">Todas</button>
-      <button class="filter-btn" data-filter="prioritarios">Prioritarias</button>
-      <button class="filter-btn" data-filter="prevencion">Prevención</button>
-      <button class="filter-btn" data-filter="maternoinfantil">Materno infantil</button>
+      <button class="filter-btn active" data-filter="all">Estrategias</button>
+      <button class="filter-btn" data-filter="tutoriales">Tutoriales</button>
+      <button class="filter-btn" data-filter="manuales">Manuales del sistema</button>
+      <button class="filter-btn" data-filter="cie10">CIE-10</button>
+      <button class="filter-btn" data-filter="codigos">Códigos CIE-10</button>
+      <button class="filter-btn" data-filter="cese">Cese de uso CIE-10</button>
     </div>
 
-    <div class="search">
-      <input type="text" id="searchInput" placeholder="Buscar estrategia, dashboard o manual...">
-    </div>
-
-    <div class="top-actions">
-      <button class="action-btn action-primary" onclick="openModal()">Visualizar</button>
+    <div class="folder-body">
+      <div class="folder-label">Carpeta activa: <b>ESTRATEGIAS SANITARIAS</b></div>
+      <button class="action-btn" onclick="openModal()">INGRESAR AL REPORTEADOR</button>
     </div>
   </div>
 
-  <div class="section-head">
-    <h3>Radar Regional de Salud</h3>
-    <span id="visibleCount">0 Reportes</span>
-  </div>
-
+  <!-- ==========================================
+  GRID DE FICHAS
+  ========================================== -->
   <div class="modules" id="modulesGrid"></div>
 
+  <!-- ==========================================
+  FOOTER
+  ========================================== -->
   <div class="footer">
-    © 2026 GERESA Cusco — Oficina de Estadística e Informática
+    © 2026 GERESA Cusco — Oficina de Estadística e Informática · Documento de uso institucional
   </div>
 </main>
 
+<!-- ==========================================
+MODAL DE LOGIN - VERSIÓN PROFESIONAL
+========================================== -->
 <div class="modal-backdrop" id="loginModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <small>Acceso institucional</small>
-    <h4>Plataforma HIS</h4>
-    <p>Ingrese sus credenciales institucionales para continuar.</p>
-
-    <div class="field">
-      <label>DNI</label>
-      <input type="text" id="dni" placeholder="Ingrese su DNI">
+    <!-- Banda superior -->
+    <div class="modal-band">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="band-decoration">
+        <span class="band-dot"></span>
+        <span class="band-dot"></span>
+        <span class="band-dot"></span>
+      </div>
+      <small><i class="bi bi-shield-lock"></i> Acceso institucional</small>
+      <h4>Plataforma Operacional</h4>
+      <p class="band-sub">Ingrese sus credenciales institucionales para continuar.</p>
     </div>
 
-    <div class="field">
-      <label>Contraseña</label>
-      <input type="password" id="password" placeholder="Ingrese su contraseña">
-    </div>
+    <!-- Cuerpo del modal -->
+    <div class="modal-body">
+      <!-- DNI -->
+      <div class="field">
+        <label><i class="bi bi-person-badge"></i> DNI</label>
+        <input type="text" id="dni" placeholder="Ingrese su DNI" autofocus>
+        <span class="field-hint">DNI válido de 8 dígitos</span>
+      </div>
 
-    <div class="modal-actions">
-      <button class="btn btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-enter" onclick="loginAction()">Ingresar</button>
+      <!-- Contraseña -->
+      <div class="field">
+        <label><i class="bi bi-lock"></i> Contraseña</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="Ingrese su contraseña">
+          <button type="button" class="toggle-password" onclick="togglePassword()">
+            <i class="bi bi-eye"></i>
+          </button>
+        </div>
+        <span class="field-hint">Ingrese caracteres validos</span>
+      </div>
+
+      <!-- Acciones -->
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal()">
+          <i class="bi bi-x-circle"></i> Cancelar
+        </button>
+        <button class="btn btn-enter" onclick="loginAction()">
+          <i class="bi bi-box-arrow-in-right"></i> Ingresar
+        </button>
+      </div>
+
+      <!-- Footer del modal - Mensaje institucional -->
+      <div class="modal-footer">
+        <div class="institutional-message">
+          <i class="bi bi-info-circle" style="color:var(--primary);margin-right:4px;"></i>
+          Si no tiene una cuenta, comuníquese con la <strong>Dirección de Estadística e Informática</strong> 
+          <span class="highlight">· GERESA Cusco</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-const modulesData = [
-  {
-    title:'Salud Mental',
-    group:'prioritarios',
-    img:'img/mental2.jpg',
-    desc:'⏳ En Proceso...[▓▓▓▓▓▓░░░░░░░░░] 40%'
+// ============================================================
+//  DATOS
+// ============================================================
+// 🔥 Estrategias disponibles (las que funcionan)
+const ESTRATEGIAS_ACTIVAS = ['Salud Bucal', 'Salud Ocular', 'Daños No Transmisibles'];
+
+const estrategias = [
+  { 
+    title:'Salud Mental',            
+    img:'img/mental2.jpg', 
+    desc:'Atención y seguimiento en salud mental comunitaria.',
+    activa: false,
+    mensaje: '⏳ En proceso de implementación. Próximamente disponible.'
   },
-  {
-    title:'Daños No Transmisibles',
-    group:'prioritarios',
-    img:'img/nt.png',
-    desc:'Control y vigilancia de hipertensión, diabetes y factores de riesgo cardiovascular.'
+  { 
+    title:'Daños No Transmisibles',  
+    img:'img/nt.png', 
+    desc:'Hipertensión, diabetes y factores de riesgo cardiovascular.',
+    activa: true
   },
-  {
-    title:'Salud Ocular',
-    group:'prevencion',
-    img:'img/ocular.jpg',
-    desc:'Prevención, detección y atención oportuna de problemas de la visión.'
+  { 
+    title:'Salud Ocular',            
+    img:'img/ocular.jpg', 
+    desc:'Prevención, detección y atención de problemas visuales.',
+    activa: true
   },
-  {
-    title:'Metales Pesados',
-    group:'prioritarios',
-    img:'img/metal.png',
-    desc:'⏳ En Proceso...[▓▓▓▓▓▓▓▓▓▓▓▓░░░] 75%'
+  { 
+    title:'Metales Pesados',         
+    img:'img/metal.png', 
+    desc:'Vigilancia de exposición a metales y atención oportuna.',
+    activa: true,
+    
   },
-  {
-    title:'Salud Bucal',
-    group:'prevencion',
-    img:'img/bucal.jpg',
-    desc:'Atención odontológica integral, prevención y control en salud bucal.'
+  { 
+    title:'Salud Bucal',             
+    img:'img/bucal.jpg', 
+    desc:'Atención odontológica integral y prevención.',
+    activa: true
   },
-  {
-    title:'Prevención de Cáncer',
-    group:'prevencion',
-    img:'img/cancer.jpg',
-    desc:'⏳ En Proceso...[▓▓░░░░░░░░░░░░░] 10%'
+  { 
+    title:'Prevención de Cáncer',    
+    img:'img/cancer.jpg', 
+    desc:'Detección temprana y control oncológico.',
+    activa: false,
+    mensaje: '🧪 En proceso de implementación. Próximamente disponible.'
   },
-  {
-    title:'Salud Materna',
-    group:'maternoinfantil',
-    img:'img/materna.jpg',
-    desc:'⏳ En Proceso...[▓░░░░░░░░░░░░░░] 8%'
+  { 
+    title:'Salud Materna',           
+    img:'img/materna.jpg', 
+    desc:'Cuidado prenatal, parto y puerperio.',
+    activa: false,
+    mensaje: '👶 En fase de desarrollo. Próximamente disponible.'
   },
-  {
-    title:'Salud Infantil',
-    group:'maternoinfantil',
-    img:'img/infantil.jpg',
-    desc:'⏳ En Proceso...[▓░░░░░░░░░░░░░░] 8%'
+  { 
+    title:'Salud Infantil',          
+    img:'img/infantil.jpg', 
+    desc:'Crecimiento, desarrollo y control del niño sano.',
+    activa: false,
+    mensaje: '🧒 En proceso de implementación. Próximamente disponible.'
   },
-  {
+  { 
     title:'Alimentación y Nutrición',
-    group:'maternoinfantil',
-    img:'img/nutricion.jpg',
-    desc:'⏳ En Proceso...[▓░░░░░░░░░░░░░░] 8%'
+    img:'img/nutricion.jpg', 
+    desc:'Evaluación nutricional y suplementación.',
+    activa: false,
+    mensaje: '🍎 En fase de construcción. Módulo en desarrollo.'
   },
-  {
-    title:'Tuberculosis',
-    group:'prioritarios',
-    img:'img/tuberculosis.jpg',
-    desc:'⏳ En Proceso...[▓░░░░░░░░░░░░░░] 8%'
+  { 
+    title:'Tuberculosis',            
+    img:'img/tuberculosis.jpg', 
+    desc:'Detección, tratamiento y control de TB.',
+    activa: false,
+    mensaje: '🔬 En proceso de implementación. Próximamente disponible.'
   }
 ];
 
-const manualUrl = 'https://files.minsa.gob.pe/s/74MZgRMddAx7mw2?dir=/2025';
-const dashMap = {
-  'Salud Bucal':'https://app.powerbi.com/view?r=eyJrIjoiOTNlOWViMzUtNDJiOC00MjRhLWJjZDUtMDNhOGU5MTRmYmQzIiwidCI6ImExMTQxY2VhLWY2NjYtNGUxMS1hNzAzLWQ3MjEzNDBkNjQ0NCIsImMiOjR9&pageName=996064daa29174b68db3',
-  'Metales Pesados':'https://app.powerbi.com/view?r=eyJrIjoiMTIzZTM3NmMtNzI4Yy00MDU4LTlkODQtZDY2MzA0YTMwZGUxIiwidCI6ImExMTQxY2VhLWY2NjYtNGUxMS1hNzAzLWQ3MjEzNDBkNjQ0NCIsImMiOjR9'
+const pestañasURL = {
+  'tutoriales': 'https://www.youtube.com/results?search_query=salud+mental+geresa+cusco',
+  'manuales': 'https://bvs.minsa.gob.pe/manuales-del-sistema-de-informacion-his/',
+  'cie10': 'https://www.minsa.gob.pe/reunis/data/volumen1-2018.pdf',
+  'codigos': 'https://files.minsa.gob.pe/s/KZfTNeDTx9fnSnM?dir=/&editing=false&openfile=true',
+  'cese': 'https://files.minsa.gob.pe/s/d5jcnbaoGRNfFcd?dir=/&editing=false&openfile=true'
 };
-const defaultDash = 'https://app.powerbi.com/view?r=eyJrIjoiOTNlOWViMzUtNDJiOC00MjRhLWJjZDUtMDNhOGU5MTRmYmQzIiwidCI6ImExMTQxY2VhLWY2NjYtNGUxMS1hNzAzLWQ3MjEzNDBkNjQ0NCIsImMiOjR9&pageName=996064daa29174b68db3';
 
+// ============================================================
+//  RENDER
+// ============================================================
 const grid = document.getElementById('modulesGrid');
-const searchInput = document.getElementById('searchInput');
-const visibleCount = document.getElementById('visibleCount');
 const filterButtons = document.querySelectorAll('.filter-btn');
 let currentFilter = 'all';
 
 function renderModules(){
-  grid.innerHTML = modulesData.map(item => `
-    <article class="module" data-group="${item.group}" data-title="${item.title.toLowerCase()}" data-desc="${item.desc.toLowerCase()}">
+  if(currentFilter !== 'all'){
+    const url = pestañasURL[currentFilter];
+    if(url){
+      window.open(url, '_blank');
+      filterButtons.forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-filter="all"]').classList.add('active');
+      currentFilter = 'all';
+      renderModules();
+      return;
+    }
+  }
+
+  grid.innerHTML = estrategias.map(item => {
+    // Determinar si está activa
+    const activa = item.activa !== undefined ? item.activa : ESTRATEGIAS_ACTIVAS.includes(item.title);
+    const claseEstado = activa ? 'activa' : 'en-proceso';
+    const titulo = item.title;
+    const desc = item.desc;
+    
+    return `
+    <article class="module ${claseEstado}" 
+             data-group="all" 
+             data-title="${titulo.toLowerCase()}" 
+             data-desc="${desc.toLowerCase()}"
+             onclick="handleModuleClick('${titulo}', ${activa}, '${item.mensaje || '⏳ Módulo en desarrollo. Próximamente disponible.'}')">
       <div class="module-media">
-        <img src="${item.img}" alt="${item.title}" loading="lazy">
+        <img src="${item.img}" alt="${titulo}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%230f172a%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%22200%22 y=%22150%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-family=%22sans-serif%22 font-size=%2222%22%3E${titulo}%3C/text%3E%3C/svg%3E'">
       </div>
       <div class="module-content">
-        <div class="module-title">${item.title}</div>
-        <div class="module-desc">${item.desc}</div>
-        <div class="module-meta">
-          <span class="pill">MINSA</span>
-          <span class="pill">${item.group}</span>
-          <span class="pill">HIS</span>
-        </div>
-      </div>
-      <div class="module-actions">
-        <a class="link-btn btn-manual" href="${manualUrl}" target="_blank" rel="noopener noreferrer">Manuales</a>
-        <a class="link-btn btn-dash" href="${dashMap[item.title] || defaultDash}" target="_blank" rel="noopener noreferrer">Dashboard</a>
+        <div class="module-title">${titulo}</div>
+        <div class="module-desc">${desc}</div>
       </div>
     </article>
-  `).join('');
-  applyFilters();
+  `}).join('');
 }
 
-function applyFilters(){
-  const q = searchInput.value.toLowerCase().trim();
-  const cards = grid.querySelectorAll('.module');
+// ============================================================
+//  MANEJAR CLICK EN MÓDULO
+// ============================================================
+function handleModuleClick(titulo, activa, mensaje) {
+  if (!activa) {
+    showDevelopmentAlert(titulo, mensaje);
+    return;
+  }
+  openModal();
+}
 
-  cards.forEach(card => {
-    const matchText = card.dataset.title.includes(q) || card.dataset.desc.includes(q) || card.dataset.group.includes(q);
-    const matchGroup = currentFilter === 'all' || card.dataset.group === currentFilter;
-    card.style.display = (matchText && matchGroup) ? '' : 'none';
+// ============================================================
+//  ALERTA PERSONALIZADA PARA MÓDULOS EN PROCESO
+// ============================================================
+function showDevelopmentAlert(titulo, mensaje) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+  `;
+  
+  const card = document.createElement('div');
+  card.style.cssText = `
+    background: white;
+    border-radius: 20px;
+    padding: 40px 48px 32px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.35);
+    animation: slideUp 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  `;
+  
+  // Banda superior decorativa (amarilla para "en proceso")
+  const band = document.createElement('div');
+  band.style.cssText = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, #f59e0b 0 14px, transparent 14px 28px);
+  `;
+  card.appendChild(band);
+  
+  // Icono
+  const icon = document.createElement('div');
+  icon.style.cssText = `
+    font-size: 3.5rem;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `;
+  icon.innerHTML = '⏳';
+  card.appendChild(icon);
+  
+  // Título
+  const title = document.createElement('h3');
+  title.style.cssText = `
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #0f172a;
+    margin-bottom: 4px;
+  `;
+  title.textContent = `"${titulo}" en proceso`;
+  card.appendChild(title);
+  
+  // Badge
+  const badge = document.createElement('span');
+  badge.style.cssText = `
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 14px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 12px;
+  `;
+  badge.textContent = '⏳ EN DESARROLLO';
+  card.appendChild(badge);
+  
+  // Mensaje
+  const msg = document.createElement('p');
+  msg.style.cssText = `
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  `;
+  msg.textContent = mensaje;
+  card.appendChild(msg);
+  
+  // Barra de progreso decorativa (con animación)
+  const progressWrap = document.createElement('div');
+  progressWrap.style.cssText = `
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  `;
+  
+  const progressBar = document.createElement('div');
+  progressBar.style.cssText = `
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    border-radius: 4px;
+    animation: pulse-badge 1.5s ease-in-out infinite;
+  `;
+  progressWrap.appendChild(progressBar);
+  card.appendChild(progressWrap);
+  
+  // Botón
+  const btn = document.createElement('button');
+  btn.style.cssText = `
+    background: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 32px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+  `;
+  btn.textContent = 'Entendido';
+  btn.onmouseover = () => { btn.style.background = '#d97706'; };
+  btn.onmouseout = () => { btn.style.background = '#f59e0b'; };
+  btn.onclick = () => { overlay.remove(); };
+  card.appendChild(btn);
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+  
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
   });
-
-  updateVisibleCount();
 }
 
-function updateVisibleCount(){
-  const visible = [...grid.querySelectorAll('.module')].filter(el => el.style.display !== 'none').length;
-  visibleCount.textContent = `${visible} Reportes`;
-}
-
+// ============================================================
+//  FILTROS
+// ============================================================
 filterButtons.forEach(btn => {
   btn.addEventListener('click', () => {
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = btn.dataset.filter;
-    applyFilters();
+    const filter = btn.dataset.filter;
+    
+    if(filter === 'all'){
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = 'all';
+      renderModules();
+      return;
+    }
+
+    const url = pestañasURL[filter];
+    if(url){
+      window.open(url, '_blank');
+      filterButtons.forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-filter="all"]').classList.add('active');
+      currentFilter = 'all';
+      renderModules();
+    }
   });
 });
 
-searchInput.addEventListener('input', applyFilters);
-
+// ============================================================
+//  MODAL - FUNCIONES
+// ============================================================
 function openModal(){
   document.getElementById('loginModal').classList.add('show');
   setTimeout(() => document.getElementById('dni').focus(), 100);
 }
+
 function closeModal(){
   document.getElementById('loginModal').classList.remove('show');
+}
+
+function togglePassword(){
+  const input = document.getElementById('password');
+  const icon = document.querySelector('.toggle-password i');
+  if(input.type === 'password'){
+    input.type = 'text';
+    icon.className = 'bi bi-eye-slash';
+  }else{
+    input.type = 'password';
+    icon.className = 'bi bi-eye';
+  }
 }
 
 async function loginAction(){
   const dni = document.getElementById("dni").value.trim();
   const password = document.getElementById("password").value.trim();
+  
   if(!dni || !password){
     alert("Ingrese su DNI y contraseña.");
     return;
@@ -627,13 +1185,27 @@ async function loginAction(){
   }
 }
 
+// ============================================================
+//  EVENTOS
+// ============================================================
 document.getElementById('loginModal').addEventListener('click', e => {
   if(e.target.id === 'loginModal') closeModal();
 });
+
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape') closeModal();
 });
 
+// Enter key en el modal
+document.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && document.getElementById('loginModal').classList.contains('show')){
+    loginAction();
+  }
+});
+
+// ============================================================
+//  INICIAR
+// ============================================================
 renderModules();
 </script>
 </body>
